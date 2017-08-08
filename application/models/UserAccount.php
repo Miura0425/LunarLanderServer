@@ -87,32 +87,6 @@ class UserAccount extends CI_Model
     return json_encode($data);
   }
 
- // アクセステスト
-  public function Access()
-  {
-    $whereData = array(
-      'ID'=>$this->session->userdata('id'),
-      'PASS'=>$this->session->userdata('pass'),
-      'DELETE_FLAG' => false,
-    );
-    $check = $this->db->get_where(TABLE_NAME_USERS,$whereData);
-    if($check->num_rows() <= 0)
-    {
-      $data = array(
-        'result' => "Error",
-      );
-      return json_encode($data);
-    }
-
-    $UserData = array(
-      'result'=>"Access",
-      'session_id' => $this->session->session_id,
-      'num'=> $check->row('NUM'),
-      'name' => $check->row('NAME'),
-    );
-
-    return json_encode($UserData);
-  }
   // 削除
   public function Delete()
   {
@@ -133,6 +107,7 @@ class UserAccount extends CI_Model
   // 切断・ログアウト
   public function Disconnect()
   {
+    // セッションの削除
     $this->session->sess_destroy();
   }
 

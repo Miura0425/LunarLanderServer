@@ -16,7 +16,7 @@ class WebTest extends CI_Controller{
   public function top()
   {
     $this->load->helper('form');
-    
+
     $data["id"] = $_GET["id"];
     $data["pass"] = $_GET["pass"];
     $data["mode"] = $_GET["mode"];
@@ -25,7 +25,7 @@ class WebTest extends CI_Controller{
     }else {
       $data["title"] = "アカウント引き継ぎ設定";
     }
-    $this->load->view('Test/test',$data);
+    $this->load->view('Test/top',$data);
   }
 
   // 認証ページ
@@ -52,7 +52,7 @@ class WebTest extends CI_Controller{
     // google の id + name(表示名)をセット
     $data['name']   = $userInfo->name;
     $data['email']  = $userInfo->email;
-    $this->load->view('Test/login',$data);
+    $this->load->view('Test/result',$data);
   }
 
   public function SignUp()
@@ -63,11 +63,6 @@ class WebTest extends CI_Controller{
   public function Login()
   {
     echo $this->UserAccount->AutoLogin();
-  }
-
-  public function Access()
-  {
-    echo $this->UserAccount->Access();
   }
 
   public function Delete()
