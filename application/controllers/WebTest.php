@@ -9,6 +9,7 @@ class WebTest extends CI_Controller{
   {
     parent::__construct();
     $this->load->model('UserAccount');
+    $this->load->model('PlayData');
     $this->load->model('getUser_Google');
     $this->load->helper('url_helper');
   }
@@ -89,4 +90,12 @@ class WebTest extends CI_Controller{
   {
     echo $this->UserAccount->CheckInheritSetting();
   }
+
+  /*------------------------------------------------------------------*/
+  public function SendPlayData()
+  {
+    echo $this->PlayData->AddPlayData();
+  }
+
+  /*------------------------------------------------------------------*/
 }

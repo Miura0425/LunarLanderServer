@@ -62,7 +62,6 @@ class UserAccount extends CI_Model
     // 返却用のデータ
     $data = array(
       'message' => "",
-      'session_id' => "",
       'num'=>"",
       'name' => "",
     );
@@ -80,7 +79,6 @@ class UserAccount extends CI_Model
 
     // 返却データに値を設定
     $data['message'] = "Login";
-    $data['session_id'] = $this->session->session_id;
     $data['num'] = $check->row('NUM');
     $data['name'] = $check->row('NAME');
 
