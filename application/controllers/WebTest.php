@@ -96,6 +96,10 @@ class WebTest extends CI_Controller{
   {
     echo $this->PlayData->AddPlayData();
   }
+  public function PlayLog()
+  {
+    echo $this->PlayData->GetPlayLog();
+  }
 
   /*------------------------------------------------------------------*/
 }
