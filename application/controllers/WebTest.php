@@ -100,6 +100,19 @@ class WebTest extends CI_Controller{
   {
     echo $this->PlayData->GetPlayLog();
   }
+  public function ScoreRanking()
+  {
+    echo $this->PlayData->GetScoreRanking();
+  }
 
+  public function TestData()
+  {
+    $this->load->helper('form');
+
+    $data['title'] = "テストデータ作成";
+    $this->PlayData->InsertTestData();
+
+    $this->load->view('Test/TestData',$data);
+  }
   /*------------------------------------------------------------------*/
 }
