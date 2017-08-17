@@ -69,25 +69,33 @@ class PlayData extends CI_Model
     return json_encode($data);
   }
 
+  // スコアランキングの取得
   public function GetScoreRanking()
   {
-    $query = $this->db->query('SELECT users.NAME,playdata.SCORE,playdata.CLEARSTAGE FROM users,playdata
+    $userID = $_GET['id'];
+
+    // IDの重複を除いたスコアの降順で取得する。IDから名前を取得する。
+    $query = $this->db->query('SELECT users.NAME,playdata.SCORE,playdata.CLEARSTAGE,playdata.ID FROM users,playdata
                               WHERE users.ID = playdata.ID AND users.DELETE_FLAG = 0 AND SCORE in
                               (SELECT max(SCORE) FROM playdata GROUP BY ID) ORDER BY SCORE desc');
 
+
+    // ひとつも取得できていないなら失敗
     if($query->num_rows() ==0){
       $data['message'] = "NoData";
 
-      return $data;
+      return json_encode($data);
     }
 
+    // ランキングデータの作成
     for($i = 0;$i<$query->num_rows();$i++){
+
+      // 順位付け 同率順位
       $rank = $i+1;
       if($i>0 && $query->row($i)->SCORE == $query->row($i-1)->SCORE)
       {
         $rank = $rankingdata[$i-1]['rank'];
       }
-
 
       $rankingdata[$i] = array(
         'rank' => $rank,
@@ -95,18 +103,31 @@ class PlayData extends CI_Model
         'score' => $query->row($i)->SCORE,
         'stage' => $query->row($i)->CLEARSTAGE,
       );
+      if($query->row($i)->ID == $userID)
+      {
+        $userrank = $rankingdata[$i];
+      }
     }
 
+    // 指定された件数だけ取得
+    for($i = 0;$i<RANKING_RECORD_NUM && $i<$query->num_rows();$i++)
+    {
+      $limitdata[$i] = $rankingdata[$i];
+    }
+    // レスポンスデータの作成
     $data = array(
       'message' => "GetData",
-      'Data' => $rankingdata,
+      'UserRank'=> $userrank,
+      'Data' => $limitdata,
     );
 
     return json_encode($data);
   }
 
+  // テストデータ追加
   public function InsertTestData()
   {
+    // 生存ユーザーを取得
     $user = $this->db->get_where(TABLE_NAME_USERS,array('DELETE_FLAG'=>0));
 
     for($i = 0;$i<$user->num_rows();$i++)
