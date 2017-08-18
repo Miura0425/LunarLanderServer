@@ -21,8 +21,7 @@ class UserAccount extends CI_Model
     );
     // 返却用のデータ
     $data = array(
-      'result' => "",
-      'session_id' => "",
+      'message' => "",
       'num'=>"",
       'name' => "",
     );
@@ -31,21 +30,16 @@ class UserAccount extends CI_Model
     $check = $this->db->get_where(TABLE_NAME_USERS,array('ID'=>$UserInfo['ID']));
     if($check->num_rows() != 0)
     {
-      $data['result'] = "Error";
+      $data['message'] = "Error";
       return json_encode($data);
     }
     // データベースに追加
     $this->db->insert(TABLE_NAME_USERS,$UserInfo);
-    // セッションに必要なデータを書き込む
-    $this->session->set_userdata('id',$UserInfo['ID']);
-    $this->session->set_userdata('pass',$UserInfo['PASS']);
 
     // 返却データに値を設定
-    $data['result'] = "SignUp";
-    $data['session_id'] = $this->session->session_id;
+    $data['message'] = "SignUp";
     $data['num'] = $this->db->get_where(TABLE_NAME_USERS,array('ID'=>$UserInfo['ID']))->row('NUM');
-    $data['name'] = $this->session->userdata('name');
-
+    $data['name'] = $UserInfo['NAME'];
 
     return json_encode($data);
   }
@@ -73,9 +67,6 @@ class UserAccount extends CI_Model
       $data['message'] = "Error";
       return json_encode($data);
     }
-    // セッションに必要なデータを書き込む
-    $this->session->set_userdata('id',$UserInfo['ID']);
-    $this->session->set_userdata('pass',$UserInfo['PASS']);
 
     // 返却データに値を設定
     $data['message'] = "Login";

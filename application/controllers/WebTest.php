@@ -110,7 +110,7 @@ class WebTest extends CI_Controller{
     $this->load->helper('form');
 
     $data['title'] = "テストデータ作成";
-    // $this->PlayData->InsertTestData();
+     $this->PlayData->InsertTestData();
 
     $this->load->view('Test/TestData',$data);
   }
