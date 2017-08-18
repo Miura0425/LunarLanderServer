@@ -35,6 +35,15 @@ class PlayData extends CI_Model
     $query = $this->db->order_by('NUM','desc')
               ->get_where(TABLE_NAME_PLAYDATA,$user);
 
+    // データが無い場合終了
+    if($query->num_rows() == 0){
+      $data = array(
+        'message' => 'NoData',
+        'High_Score' => 0,
+        'High_ClearStage' => 0,
+      );
+      return json_encode($data);
+    }
     // ハイスコアとハイクリアステージを取得する。
     $highScore = 0;
     $highStage = 0;
@@ -80,7 +89,7 @@ class PlayData extends CI_Model
                               (SELECT max(SCORE) FROM playdata GROUP BY ID) ORDER BY SCORE desc');
 
 
-    // ひとつも取得できていないなら失敗
+    // ひとつも取得できていないなら終了
     if($query->num_rows() ==0){
       $data['message'] = "NoData";
 
