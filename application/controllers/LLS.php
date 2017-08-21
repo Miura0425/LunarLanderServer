@@ -2,7 +2,7 @@
 
 require_once "HTTP/Request2.php";
 
-class WebTest extends CI_Controller{
+class LLS extends CI_Controller{
 
   // コンストラクタ
   public function __construct()
@@ -26,7 +26,7 @@ class WebTest extends CI_Controller{
     }else {
       $data["title"] = "アカウント引き継ぎ設定";
     }
-    $this->load->view('Test/top',$data);
+    $this->load->view('lls/top',$data);
   }
 
   // 認証ページ
@@ -53,7 +53,7 @@ class WebTest extends CI_Controller{
     // google の id + name(表示名)をセット
     $data['name']   = $userInfo->name;
     $data['email']  = $userInfo->email;
-    $this->load->view('Test/result',$data);
+    $this->load->view('lls/result',$data);
   }
 
   public function SignUp()
@@ -78,7 +78,7 @@ class WebTest extends CI_Controller{
   public function Inherit()
   {
     $data = $this->UserAccount->Inherit();
-    $this->load->view('Test/inherit',$data);
+    $this->load->view('lls/inherit',$data);
   }
 
   public function CheckInheriting()
@@ -112,7 +112,7 @@ class WebTest extends CI_Controller{
     $data['title'] = "テストデータ作成";
      $this->PlayData->InsertTestData();
 
-    $this->load->view('Test/TestData',$data);
+    $this->load->view('lls/TestData',$data);
   }
   /*------------------------------------------------------------------*/
 }

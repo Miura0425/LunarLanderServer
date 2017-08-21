@@ -49,15 +49,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['WebTest/TestData'] = 'WebTest/TestData';
-$route['WebTest/ScoreRanking'] = 'WebTest/ScoreRanking';
-$route['WebTest/PlayLog'] = 'WebTest/PlayLog';
-$route['WebTest/SendPlayData'] = 'WebTest/SendPlayData';
-$route['WebTest/SignUp'] = 'WebTest/SignUp';
-$route['WebTest/Delete'] = 'WebTest/Delete';
-$route['WebTest/GetText'] = 'WebTest/GetText';
-$route['WebTest/Login_GoogleCallBack'] = 'WebTest/Login_GoogleCallBack';
-$route['WebTest/Inherit'] = 'WebTest/Inherit';
-$route['WebTest/Login_Google'] = 'WebTest/Login_Google';
-$route['WebTest'] = 'WebTest/top';
-$route['default_controller'] = 'WebTest/top';
+$route['TestData'] = 'LLS/TestData';
+//$route['LLS/ScoreRanking'] = 'LLS/ScoreRanking';
+//$route['LLS/PlayLog'] = 'LLS/PlayLog';
+//$route['LLS/SendPlayData'] = 'LLS/SendPlayData';
+//$route['LLS/SignUp'] = 'LLS/SignUp';
+//$route['LLS/Delete'] = 'LLS/Delete';
+$route['LLS/Login_GoogleCallBack'] = 'LLS/Login_GoogleCallBack';
+$route['LLS/Inherit'] = 'LLS/Inherit';
+$route['LLS/Login_Google'] = 'LLS/Login_Google';
+$route['LLS'] = 'LLS/top';
+$route['default_controller'] = 'LLS/top';
