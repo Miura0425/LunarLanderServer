@@ -96,6 +96,13 @@ class PlayData extends CI_Model
       return json_encode($data);
     }
 
+
+    $userrank = array(
+      'rank' => 0,
+      'name' => "",
+      'score' => 0,
+      'stage' => 0,
+    );
     // ランキングデータの作成
     for($i = 0;$i<$query->num_rows();$i++){
 
@@ -137,7 +144,7 @@ class PlayData extends CI_Model
   public function InsertTestData()
   {
     // 生存ユーザーを取得
-    /*$user = $this->db->get_where(TABLE_NAME_USERS,array('DELETE_FLAG'=>0));
+    /**/$user = $this->db->get_where(TABLE_NAME_USERS,array('DELETE_FLAG'=>0));
 
     for($i = 0;$i<$user->num_rows();$i++)
     {
@@ -150,6 +157,6 @@ class PlayData extends CI_Model
         $this->db->insert(TABLE_NAME_PLAYDATA,$TestData);
       }
     }
-    */
+    /**/
   }
 }
