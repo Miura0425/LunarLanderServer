@@ -119,6 +119,7 @@ class UserAccount extends CI_Model
   {
     $data['title'] = "引き継ぎ設定";
     $data['dialog'] = false;
+    $data['username'] = "";
     $UserData = array(
       'ID' => $this->session->userdata('id'),
       'PASS' => $this->session->userdata('pass'),
@@ -128,9 +129,11 @@ class UserAccount extends CI_Model
     $check = $this->db->get_where(TABLE_NAME_USERS,array('GoogleID'=>$Google_Data->id,'DELETE_FLAG' => false));
     if($check->row('ID') == $UserData['ID'])
     {
+      $data['username'] = $check->row('NAME');
       $data['result'] = "既に登録済み";
       return $data;
     }else if($check->row('GoogleID') != NULL){
+      $data['username'] = $check->row('NAME');
       $data['result'] = "このGoogleアカウントには既に別のアカウントが登録されています。";
       return $data;
     }
@@ -158,6 +161,7 @@ class UserAccount extends CI_Model
   {
     $data['title'] = "引き継ぎ";
     $data['dialog'] = false;
+    $data['username'] = "";
 
     $BaseData = $this->db->get_where(TABLE_NAME_USERS,array('GoogleID'=>$Google_Data->id,'DELETE_FLAG' => false));
     if($BaseData->num_rows() == 0)
@@ -180,6 +184,7 @@ class UserAccount extends CI_Model
     $this->session->set_userdata($BaseUser);
 
     $data['result'] = "引き継ぎ可能です<br>引き継ぎを行いますか？";
+    $data['username'] = $BaseUser['base_name'];
     $data['dialog'] = true;
     return $data;
   }

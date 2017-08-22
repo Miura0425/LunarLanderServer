@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The $query_builder variables lets you determine whether or not to load
 | the query builder class.
 */
-$active_group = 'default';
+$active_group = 'aws';
 $query_builder = TRUE;
 
 $db['default'] = array(
@@ -93,4 +93,27 @@ $db['default'] = array(
 	'stricton' => FALSE,
 	'failover' => array(),
 	'save_queries' => TRUE
+);
+
+$db['aws'] = array(
+        'dsn'   => '',
+        'hostname' => 'miuratutorial.cvy3rkfwh5my.us-west-2.rds.amazonaws.com', // エンドポイント
+        'port'     => '3306', // ポート
+        'username' => 'MiuraTutorial', // ユーザーネーム
+        'password' => 'miura0425', // パスワード
+        'database' => 'LunarLander2017', // データベース名
+        'dbdriver' => 'mysqli',
+        'dbprefix' => '',
+        'pconnect' => FALSE,
+        'db_debug' => (ENVIRONMENT !== 'production'),
+        'cache_on' => FALSE,
+        'cachedir' => '',
+        'char_set' => 'utf8',
+        'dbcollat' => 'utf8_general_ci',
+        'swap_pre' => '',
+        'encrypt' => FALSE,
+        'compress' => FALSE,
+        'stricton' => FALSE,
+        'failover' => array(),
+        'save_queries' => TRUE
 );

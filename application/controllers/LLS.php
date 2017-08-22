@@ -50,9 +50,6 @@ class LLS extends CI_Controller{
     // モードによって処理を変える。
     $data = $this->UserAccount->ChackEventMode($userInfo);
 
-    // google の id + name(表示名)をセット
-    $data['name']   = $userInfo->name;
-    $data['email']  = $userInfo->email;
     $this->load->view('lls/result',$data);
   }
 

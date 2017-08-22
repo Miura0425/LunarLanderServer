@@ -6,16 +6,13 @@
   <body>
     <center>
     <h1><?php echo $title;?></h1>
-    <table>
+    <?php if($username!=""){?>
+    <table border=1>
       <tr>
-        <td>Name:</td>
-        <td><?php echo $name; ?></td>
-      </tr>
-      <tr>
-        <td>email:</td>
-        <td><?php echo $email; ?></td>
+        <td>PlayerName:<b><?php echo $username; ?></b></td>
       </tr>
     </table>
+    <?php } ?>
     <h2><?php echo $result;?></h2>
     <?php if($dialog){?>
       <?php echo form_open('LLS/Inherit');?>
