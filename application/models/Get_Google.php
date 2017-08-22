@@ -5,7 +5,7 @@ define('REDIRECT_URL','http://localhost/LunarLanderServer/index.php/LLS/Login_Go
 
 require_once "HTTP/Request2.php";
 
-class getUser_Google extends CI_Model
+class Get_Google extends CI_Model
 {
   /// コンストラクタ
   public function __construct()

@@ -10,7 +10,7 @@ class LLS extends CI_Controller{
     parent::__construct();
     $this->load->model('UserAccount');
     $this->load->model('PlayData');
-    $this->load->model('getUser_Google');
+    $this->load->model('Get_Google');
     $this->load->helper('url_helper');
   }
 
@@ -32,8 +32,8 @@ class LLS extends CI_Controller{
   // 認証ページ
   public function Login_Google()
   {
-    $this->getUser_Google->setUserData();
-    $url = $this->getUser_Google->getOAuthURL();
+    $this->Get_Google->setUserData();
+    $url = $this->Get_Google->getOAuthURL();
     // Google認証ページを開く
     header("Location: " . $url);
   }
@@ -43,9 +43,9 @@ class LLS extends CI_Controller{
     $this->load->helper('form');
 
     // アクセストークンの取得
-    $access_token = $this->getUser_Google->getAccessToken();
+    $access_token = $this->Get_Google->getAccessToken();
     // Googleアカウントのユーザー情報を取得
-    $userInfo = $this->getUser_Google->getUserInfo($access_token);
+    $userInfo = $this->Get_Google->getUserInfo($access_token);
 
     // モードによって処理を変える。
     $data = $this->UserAccount->ChackEventMode($userInfo);
