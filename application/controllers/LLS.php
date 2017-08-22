@@ -10,7 +10,7 @@ class LLS extends CI_Controller{
     parent::__construct();
     $this->load->model('UserAccount');
     $this->load->model('PlayData');
-    $this->load->model('getUser_Google');
+    $this->load->model('GetUser_Google');
     $this->load->helper('url_helper');
   }
 
