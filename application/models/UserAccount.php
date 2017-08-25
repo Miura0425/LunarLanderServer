@@ -13,6 +13,13 @@ class UserAccount extends CI_Model
   /// オートサインアップテスト
   public function AutoSignUp()
   {
+    // データが存在しているかチェック
+    if(!isset($_GET["id"]) || !isset($_GET["pass"]) || !isset($_GET["name"]))
+    {
+        $data['message'] = "Error";
+        return json_encode($data);
+    }
+
     // ユーザー情報を受信
     $UserInfo = array(
       'ID' => $_GET["id"],
@@ -41,16 +48,35 @@ class UserAccount extends CI_Model
     $data['num'] = $this->db->get_where(TABLE_NAME_USERS,array('ID'=>$UserInfo['ID']))->row('NUM');
     $data['name'] = $UserInfo['NAME'];
 
+    // セッションにID/PASS/NAMEを追加する
+    $this->session->set_userdata("id",$UserInfo['ID']);
+    $this->session->set_userdata("pass",$UserInfo['PASS']);
+    $this->session->set_userdata("name",$UserInfo['NAME']);
+    $this->session->set_userdata("num",$data['num']);
+
     return json_encode($data);
   }
 
 // オートログインテスト
   public function AutoLogin()
   {
+    $ID = "";
+    $PASS = "";
+
+    // データが存在するかチェック
+    if(isset($_GET["id"]) && isset($_GET["pass"]))
+    {
+      $ID = $_GET["id"];
+      $PASS = $_GET["pass"];
+    }else {
+      $data["message"] = "Error";
+      return json_encode($data);
+    }
+
     // ユーザー情報を受信
     $UserInfo = array(
-      'ID' => $_GET["id"],
-      'PASS' => $_GET["pass"],
+      'ID' => $ID,
+      'PASS' => $PASS,
       'DELETE_FLAG' => false,
     );
     // 返却用のデータ
@@ -73,19 +99,45 @@ class UserAccount extends CI_Model
     $data['num'] = $check->row('NUM');
     $data['name'] = $check->row('NAME');
 
+    // セッションにID/PASS/NAMEを追加
+    $this->session->set_userdata("id",$check->row('ID'));
+    $this->session->set_userdata("pass",$check->row('PASS'));
+    $this->session->set_userdata("name",$check->row('NAME'));
+    $this->session->set_userdata("num",$check->row('NUM'));
+
     return json_encode($data);
   }
 
   // 削除
   public function Delete()
   {
+    $ID = "";
+    $PASS = "";
+
+    // データが存在しているかチェック
+    if(isset($_GET['id']) && isset($_GET['pass']))
+    {
+      $ID = $_GET['id'];
+      $PASS = $_GET['pass'];
+    }else if($this->session->has_userdata("id") && $this->session->has_userdata("pass"))
+    {
+      $ID = $this->session->userdata("id");
+      $PASS = $this->session->userdata("pass");
+    }else {
+      $data['message'] = "";
+      return json_encode($data);
+    }
+
     // 削除処理
     $UserData = array(
-      'ID'=>$_GET['id'],
-      'PASS'=>$_GET['pass'],
+      'ID'=>$ID,
+      'PASS'=>$PASS,
       'DELETE_FLAG' => false,
     );
     $this->db->set("DELETE_FLAG",true)->where($UserData)->update(TABLE_NAME_USERS);
+
+    // 切断処理
+    $this->Disconnect();
 
     $ResultData = array(
       'message' => "Delete Complete",
@@ -217,7 +269,7 @@ class UserAccount extends CI_Model
   public function CheckInheriting()
   {
     $UserData =array(
-       'NUM' => $_GET["num"],
+       'NUM' => $this->session->userdata("num"),
        'DELETE_FLAG' => false,
      );
 
@@ -240,14 +292,30 @@ class UserAccount extends CI_Model
     $data['pass'] = $check->row('PASS');
     $data['name'] = $check->row('NAME');
 
+    $this->Disconnect();
+
     return json_encode($data);
   }
   /// 引き継ぎ設定が完了したかどうか
   public function CheckInheritSetting()
   {
+    $ID = "";
+    $PASS = "";
+    if(isset($_GET["id"]) && isset($_GET["pass"]))
+    {
+      $ID = $_GET["id"];
+      $PASS = $_GET["pass"];
+    }else if($this->session->has_userdata("id") && $this->session->has_userdata("pass")){
+      $ID = $this->session->userdata("id");
+      $PASS =$this->session->userdata("pass");
+    }else {
+      $data['message'] = "Error";
+      return json_encode($data);
+    }
+
     $UserData = array(
-      'ID' => $_GET["id"],
-      'PASS' => $_GET["pass"],
+      'ID' => $ID,
+      'PASS' => $PASS,
       'DELETE_FLAG' => false,
     );
     $data = array(

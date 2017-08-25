@@ -18,21 +18,14 @@ class LLS extends CI_Controller{
   {
     $this->load->helper('form');
 
-    $data["id"] = $_GET["id"];
-    $data["pass"] = $_GET["pass"];
-    $data["mode"] = $_GET["mode"];
-    if($data["mode"]== "GET"){
-      $data["title"] = "アカウント引き継ぎ";
-    }else {
-      $data["title"] = "アカウント引き継ぎ設定";
-    }
+    $data = $this->Get_Google->setUserData();
+
     $this->load->view('lls/top',$data);
   }
 
   // 認証ページ
   public function Login_Google()
   {
-    $this->Get_Google->setUserData();
     $url = $this->Get_Google->getOAuthURL();
     // Google認証ページを開く
     header("Location: " . $url);

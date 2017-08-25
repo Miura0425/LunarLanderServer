@@ -1,7 +1,7 @@
 <?php
 define('CLIENT_ID', '872171358764-jmdri9u4erk4gtl1h5in5oiqhu34b9eq.apps.googleusercontent.com');
 define('CLIENT_SECRET', '5IcR6XK6NKXsP7dulU9sjy3-');
-define('REDIRECT_URL','http://ec2-54-149-38-119.us-west-2.compute.amazonaws.com/LunarLanderServer/index.php/LLS/Login_GoogleCallBack');
+define('REDIRECT_URL',"http://localhost/LunarLanderServer/index.php/LLS/Login_GoogleCallBack");//'http://ec2-54-149-38-119.us-west-2.compute.amazonaws.com/LunarLanderServer/index.php/LLS/Login_GoogleCallBack');
 
 require_once "HTTP/Request2.php";
 
@@ -15,13 +15,41 @@ class Get_Google extends CI_Model
 
   public function setUserData()
   {
+    $data["id"]   = "";
+    $data["pass"] = "";
+    $data["mode"] = "";
+
+    if(isset($_GET["id"]) && isset($_GET["pass"]) && isset($_GET["mode"]))
+    {
+      $data["id"]   = $_GET["id"];
+      $data["pass"] = $_GET["pass"];
+      $data["mode"] = $_GET["mode"];
+    }else if($this->session->has_userdata("id") && $this->session->has_userdata("pass") && $this->session->has_userdata("mode")) {
+      $data["id"]   = $this->session->userdata("id");
+      $data["pass"] = $this->session->userdata("pass");
+      $data["mode"] = $this->session->userdata("mode");
+    }
+
+    if($data["mode"] == "GET"){
+      $data["title"] = "アカウント引き継ぎ";
+    }else if($data["mode"] == "SET"){
+      $data["title"] = "アカウント引き継ぎ設定";
+    }else {
+      $data["title"] = "Error";
+      $data["message"] = "通信エラー　ゲームに戻ってやり直してください。";
+      // セッションの削除
+      $this->session->sess_destroy();
+      return $data;
+    }
+
     $UserData = array(
-      "id" => $_GET["id"],
-      "pass" => $_GET["pass"],
-      "mode" => $_GET["mode"],
+      "id" => $data["id"],
+      "pass" => $data["pass"],
+      "mode" => $data["mode"],
     );
 
     $this->session->set_userdata($UserData);
+    return $data;
   }
 
   /// 認証ページのURLを返す。

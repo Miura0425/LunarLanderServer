@@ -8,6 +8,7 @@ class PlayData extends CI_Model
   public function __construct()
   {
     $this->load->database();
+    $this->load->library('session');
   }
 
   // 新規プレイデータをDBに挿入する
@@ -29,7 +30,7 @@ class PlayData extends CI_Model
   public function GetPlayLog()
   {
     $user = array(
-      'ID' => $_GET['id'],
+      'ID' => $this->session->userdata("id"),
     );
 
     $query = $this->db->order_by('NUM','desc')
@@ -81,7 +82,7 @@ class PlayData extends CI_Model
   // スコアランキングの取得
   public function GetScoreRanking()
   {
-    $userID = $_GET['id'];
+    $userID = $this->session->userdata("id");
 
     // IDの重複を除いたスコアの降順で取得する。IDから名前を取得する。
     $query = $this->db->query('SELECT users.NAME,playdata.SCORE,playdata.CLEARSTAGE,playdata.ID FROM users,playdata
