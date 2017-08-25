@@ -57,6 +57,7 @@ class Get_Google extends CI_Model
     );
     $req = new Http_Request2($baseURL, Http_Request2::METHOD_POST);
     $req->addPostParameter($params);
+    $req->setAdapter('curl');
     $res = $req->send();
     $response = json_decode($res->getBody());
 
