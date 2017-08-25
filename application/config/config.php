@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://ec2-54-187-246-195.us-west-2.compute.amazonaws.com/LunarLanderServer/';
+$config['base_url'] = 'http://ec2-54-149-38-119.us-west-2.compute.amazonaws.com/LunarLanderServer/';
 
 /*
 |--------------------------------------------------------------------------
