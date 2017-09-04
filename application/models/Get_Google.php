@@ -66,7 +66,8 @@ class Get_Google extends CI_Model
     'scope=' . urlencode(implode(' ', $scope)) .
     '&client_id=' . CLIENT_ID.
     '&response_type=code' .
-    '&redirect_uri=' . site_rul().REDIRECT_URL;
+    '&redirect_uri=' . site_url().REDIRECT_URL;
+
 
     return $authURL;
   }
