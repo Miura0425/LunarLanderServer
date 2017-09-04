@@ -245,10 +245,11 @@ class UserAccount extends CI_Model
     $data['title'] = "引き継ぎ";
     if($this->input->post('YesNo')==1){
 
-      // 引き継ぎ元のレコードの削除フラグを立てる
-      $this->db->set("DELETE_FLAG",true)->where("ID",$this->session->userdata('base_id'))->update(TABLE_NAME_USERS);
+      // 引き継ぎ元のINHERIT_IDに引き継ぎ先IDを登録
+      $this->db->set("INHERIT_ID",$this->session->userdata('base_id'))->where(array("ID"=>$this->session->userdata('id'),"DELETE_FLAG"=>false))->update(TABLE_NAME_USERS);
 
       // 引き継ぎ先のレコードの情報を引き継ぎ元の情報で更新する。
+      /*
       $UserData = array(
         'ID' => $this->session->userdata('base_id'),
         'PASS' => $this->session->userdata('base_pass'),
@@ -258,7 +259,7 @@ class UserAccount extends CI_Model
       $this->db->set($UserData);
       $this->db->where('ID', $this->session->userdata('id'));
       $inheriting = $this->db->update(TABLE_NAME_USERS);
-
+      */
       $data['result'] = "引き継ぎ完了<br>ゲームに戻ってください";
     }
     else{
@@ -278,19 +279,27 @@ class UserAccount extends CI_Model
       'id' => "",
       'pass'=>"",
       'name' => "",
+      'num' => 0,
     );
 
     $check = $this->db->get_where(TABLE_NAME_USERS,$UserData);
-    if($check->num_rows() <= 0 || $check->row('GoogleID') == NULL)
+    if($check->num_rows() <= 0 || $check->row('INHERIT_ID') == NULL)
     {
       $data['message'] = "Failed";
       return json_encode($data);
     }
 
+    $InheritData  = $this->db->get_where(TABLE_NAME_USERS,array("ID"=>$check->row('INHERIT_ID'),"DELETE_FLAG"=>false));
+    $this->db->set("INHERIT_ID",NULL)->where(array("ID"=>$check->row('ID'),"DELETE_FLAG"=>false))->update(TABLE_NAME_USERS);
+
+
     $data['message'] = "Complete";
-    $data['id'] = $check->row('ID');
-    $data['pass'] = $check->row('PASS');
-    $data['name'] = $check->row('NAME');
+    $data['id'] = $InheritData->row('ID');
+    $data['pass'] = $InheritData->row('PASS');
+    $data['name'] = $InheritData->row('NAME');
+    $data['num'] = $InheritData->row('NUM');
+
+
 
     $this->Disconnect();
 
