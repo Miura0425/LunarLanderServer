@@ -1,7 +1,7 @@
 <?php
 define('CLIENT_ID', '872171358764-jmdri9u4erk4gtl1h5in5oiqhu34b9eq.apps.googleusercontent.com');
 define('CLIENT_SECRET', '5IcR6XK6NKXsP7dulU9sjy3-');
-define('REDIRECT_URL',"http://ec2-54-149-25-62.us-west-2.compute.amazonaws.com/LunarLanderServer/index.php/LLS/Login_GoogleCallBack");//'http://ec2-54-149-38-119.us-west-2.compute.amazonaws.com/LunarLanderServer/index.php/LLS/Login_GoogleCallBack');
+define('REDIRECT_URL',"/LLS/Login_GoogleCallBack");
 
 require_once "HTTP/Request2.php";
 
@@ -66,7 +66,7 @@ class Get_Google extends CI_Model
     'scope=' . urlencode(implode(' ', $scope)) .
     '&client_id=' . CLIENT_ID.
     '&response_type=code' .
-    '&redirect_uri=' . REDIRECT_URL;
+    '&redirect_uri=' . site_rul().REDIRECT_URL;
 
     return $authURL;
   }
@@ -109,5 +109,10 @@ class Get_Google extends CI_Model
     return $userInfo;
 
 
+  }
+
+  public function urltest()
+  {
+    echo site_url().REDIRECT_URL;
   }
 }

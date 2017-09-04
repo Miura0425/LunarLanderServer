@@ -100,7 +100,8 @@ class LLS extends CI_Controller{
     $this->load->helper('form');
 
     $data['title'] = "テストデータ作成";
-     $this->PlayData->InsertTestData();
+     //$this->PlayData->InsertTestData();
+     $this->Get_Google->urltest();
 
     $this->load->view('lls/TestData',$data);
   }
